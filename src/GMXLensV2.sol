@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import { UUPSUpgradeable }from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import { OwnableUpgradeable } from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-contract GMXLensV2 is Initializable {
+contract GMXLensV2 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
 
     struct MarketDataState {
         address marketToken;
@@ -33,10 +35,29 @@ contract GMXLensV2 is Initializable {
     }
 
     function initialize() public initializer {
-        // Initialization logic here
+        __Ownable_init(msg.sender);
     }
 
-    function getMarketData(address marketID) external view returns (MarketDataState memory) {
-        // Implement the logic to retrieve market data
-    }
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
+
+    // function getMarketData(address marketID) external view returns (MarketDataState memory) {
+    //     // Interface for the GMX Market Data contract
+    //     IGmxMarketData marketDataContract = IGmxMarketData(marketID);
+
+    //     // Fetching data from the market data contract
+    //     // This is a placeholder; you'll need to replace these calls with actual function calls to the GMX contract
+    //     address marketToken = marketDataContract.getMarketToken();
+    //     uint256 poolValue = marketDataContract.getPoolValue();
+    //     // Continue fetching other required data fields in a similar fashion
+
+    //     // Constructing the MarketDataState struct to return
+    //     MarketDataState memory state = MarketDataState({
+    //         marketToken: marketToken,
+    //         poolValue: poolValue
+    //         // Populate other fields similarly
+    //     });
+
+    //     return state;
+    // }
+
 }
