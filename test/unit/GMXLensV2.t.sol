@@ -21,7 +21,6 @@ contract GMXLensV2Test is Test {
 
     function testGetMarketData() public {
         mockMarketData mockMD = new mockMarketData();
-        address marketTokenExpected;
         uint256 poolValueExpected;
 
         GMXLensV2.MarketDataState memory data = mockMD.getMarketData(address(1), 0x489ee077994B6658eAfA855C308275EAd8097C4A);

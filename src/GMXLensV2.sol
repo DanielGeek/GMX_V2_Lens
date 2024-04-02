@@ -39,9 +39,9 @@ contract GMXLensV2 is MarketDataTypes, Initializable, UUPSUpgradeable, OwnableUp
     //     uint256 maxOpenInterestUsdShort;
     // }
 
-    // function initialize() public initializer {
-    //     __Ownable_init(msg.sender);
-    // }
+    function initialize() public initializer {
+        __Ownable_init(msg.sender);
+    }
 
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
@@ -53,7 +53,7 @@ contract GMXLensV2 is MarketDataTypes, Initializable, UUPSUpgradeable, OwnableUp
         // Fetching data from the market data contract
         uint256 poolValue = vault.poolAmounts(marketID);
 
-        // Constructing the MarketDataState struct to return
+        // Constructing the MarketDataState struct to return, this is dummy data
         MarketDataState memory state = MarketDataState({
             marketToken: marketID,
                 indexToken: address(2),
