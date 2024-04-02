@@ -9,11 +9,11 @@ contract DeployGMXLensV2 is Script {
     function run() external {
         vm.startBroadcast();
 
-        GMXLensV2 lensImpl = new GMXLensV2();
-        ERC1967Proxy proxy = new ERC1967Proxy(
-            address(lensImpl),
-            abi.encodeWithSelector(GMXLensV2.initialize.selector)
-        );
+        // GMXLensV2 lensImpl = new GMXLensV2();
+        // ERC1967Proxy proxy = new ERC1967Proxy(
+        //     address(lensImpl),
+        //     abi.encodeWithSelector(GMXLensV2.initialize.selector)
+        // );
 
         // The rest of your deployment script remains unchanged
 
