@@ -14,3 +14,6 @@ GMX V2 Lens data that gather identical information from the GMX V2 stats dashboa
    - Deployer: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
    - Deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
    - Transaction hash: 0x91748b2c624b3cd15fe65539d246945a49ff73bf28f8dd59f623cfbecc7f373
+
+## Build and Run test
+- `forge test --fork-url https://arb-mainnet.g.alchemy.com/v2/alchemyId --match-path test/unit/GMXLensV2.t.sol -vvv`
