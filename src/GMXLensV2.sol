@@ -10,34 +10,28 @@ interface IVault {
     function poolAmounts(address _token) external view returns (uint256);
 }
 
-contract GMXLensV2 is MarketDataTypes, Initializable, UUPSUpgradeable, OwnableUpgradeable {
+interface IOrderStoreUtils {
+    function IS_LONG() external view returns (bytes32);
+}
 
-    // struct MarketDataState {
-    //     address marketToken;
-    //     address indexToken;
-    //     address longToken;
-    //     address shortToken;
-    //     uint256 poolValue;
-    //     uint256 longTokenAmount;
-    //     uint256 longTokenUsd;
-    //     uint256 shortTokenAmount;
-    //     uint256 shortTokenUsd;
-    //     int256 openInterestLong;
-    //     int256 openInterestShort;
-    //     int256 pnlLong;
-    //     int256 pnlShort;
-    //     int256 netPnl;
-    //     uint256 borrowingFactorPerSecondForLongs;
-    //     uint256 borrowingFactorPerSecondForShorts;
-    //     bool longsPayShorts;
-    //     uint256 fundingFactorPerSecond;
-    //     int256 fundingFactorPerSecondLongs;
-    //     int256 fundingFactorPerSecondShorts;
-    //     uint256 reservedUsdLong;
-    //     uint256 reservedUsdShort;
-    //     uint256 maxOpenInterestUsdLong;
-    //     uint256 maxOpenInterestUsdShort;
-    // }
+interface IDepositStoreUtils {
+    function INITIAL_LONG_TOKEN() external view returns (bytes32);
+    function INITIAL_LONG_TOKEN_AMOUNT() external view returns (bytes32);
+    function INITIAL_SHORT_TOKEN() external view returns (bytes32);
+    function INITIAL_SHORT_TOKEN_AMOUNT() external view returns (bytes32);
+}
+
+interface IMarketStoreUtils {
+    function INDEX_TOKEN() external view returns (bytes32);
+    function LONG_TOKEN() external view returns (bytes32);
+    function SHORT_TOKEN() external view returns (bytes32);
+}
+
+interface IPositionStoreUtils {
+    function BORROWING_FACTOR() external view returns (bytes32);
+}
+
+contract GMXLensV2 is MarketDataTypes, Initializable, UUPSUpgradeable, OwnableUpgradeable {
 
     function initialize() public initializer {
         __Ownable_init(msg.sender);
@@ -48,10 +42,33 @@ contract GMXLensV2 is MarketDataTypes, Initializable, UUPSUpgradeable, OwnableUp
     function getMarketData(address marketID, address _vault) external view returns (MarketDataState memory) {
         // Interface for the GMX Market Data contract
         IVault vault = IVault(_vault);
+        IOrderStoreUtils orderStoreUtils = IOrderStoreUtils(0x97BeB5A20FBd4596c8B19a89Ec399a100e57d14d);
+        IDepositStoreUtils depositStoreUtils = IDepositStoreUtils(0x98e86155abf8bCbA566b4a909be8cF4e3F227FAf);
+        IMarketStoreUtils marketStoreUtils = IMarketStoreUtils(0x5a1344252f0CdfDB765DD5ab97C98734f1D7ED6d);
+        IPositionStoreUtils positionStoreUtils = IPositionStoreUtils(0x4a57C9b3d6c96954e397Cc186F98fCD2816A95C7);
 
 
         // Fetching data from the market data contract
         uint256 poolValue = vault.poolAmounts(marketID);
+
+        // bytes32 isLongValue = orderStoreUtils.IS_LONG();
+        // address isLongAddress = address(uint160(uint256(isLongValue)));
+
+        // bytes32 initialShortToken = depositStoreUtils.INITIAL_SHORT_TOKEN();
+        // address initialShortTokenAddress = address(uint160(uint256(initialShortToken)));
+
+        // bytes32 indexToken = marketStoreUtils.INDEX_TOKEN();
+        // address indexTokenAddress = address(uint160(uint256(indexToken)));
+
+        // bytes32 longToken = marketStoreUtils.LONG_TOKEN();
+        // address longTokenAddress = address(uint160(uint256(longToken)));
+        
+        // bytes32 shortToken = marketStoreUtils.SHORT_TOKEN();
+        // address shortTokennAddress = address(uint160(uint256(shortToken)));
+        
+        // bytes32 borrowingFactor = positionStoreUtils.BORROWING_FACTOR();
+        // address borrowingFactorAddress = address(uint160(uint256(borrowingFactor)));
+
 
         // Constructing the MarketDataState struct to return, this is dummy data
         MarketDataState memory state = MarketDataState({
